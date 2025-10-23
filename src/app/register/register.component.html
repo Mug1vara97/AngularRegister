@@ -1,0 +1,42 @@
+<div class="form-container">
+  <h2>{{ isLogin ? 'Вход' : 'Регистрация' }}</h2>
+  
+  <form (ngSubmit)="onSubmit()">
+    <div *ngIf="!isLogin">
+      <div class="field-container">
+        <div class="error-message">{{ getFieldError('firstName') }}</div>
+        <div *ngIf="showFirstNameWarning" class="warning-message">Можно вводить только буквы</div>
+        <input type="text" [(ngModel)]="firstName" name="firstName" placeholder="Имя" [class.error]="getFieldError('firstName')" (input)="onNameInput($event, 'firstName')" pattern="[а-яА-Яa-zA-Z\s]+" title="Только буквы">
+      </div>
+      
+      <div class="field-container">
+        <div class="error-message">{{ getFieldError('lastName') }}</div>
+        <div *ngIf="showLastNameWarning" class="warning-message">Можно вводить только буквы</div>
+        <input type="text" [(ngModel)]="lastName" name="lastName" placeholder="Фамилия" [class.error]="getFieldError('lastName')" (input)="onNameInput($event, 'lastName')" pattern="[а-яА-Яa-zA-Z\s]+" title="Только буквы">
+      </div>
+    </div>
+    
+    <div class="field-container">
+      <div class="error-message">{{ getFieldError('email') }}</div>
+      <input type="email" [(ngModel)]="email" name="email" placeholder="Email" [class.error]="getFieldError('email')">
+    </div>
+    
+    <div class="field-container">
+      <div class="error-message">{{ getFieldError('password') }}</div>
+      <input type="password" [(ngModel)]="password" name="password" placeholder="Пароль" [class.error]="getFieldError('password')">
+    </div>
+    
+    <div *ngIf="!isLogin" class="field-container">
+      <div class="error-message">{{ getFieldError('confirmPassword') }}</div>
+      <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Подтверждение пароля" [class.error]="getFieldError('confirmPassword')">
+    </div>
+    
+    <button type="submit" [disabled]="!isFormValid() && isSubmitted">{{ isLogin ? 'Войти' : 'Зарегистрироваться' }}</button>
+  </form>
+  
+  <div class="toggle-link">
+    <a (click)="toggleMode()">
+      {{ isLogin ? 'Нет аккаунта? Зарегистрироваться' : 'Есть аккаунт? Войти' }}
+    </a>
+  </div>
+</div>
